@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Store the ID of focused window
+PREVIOUS_WINDOW=$(xdotool getactivewindow)
+
+# Send toggle mute keybind to Discord
+xdotool search --onlyvisible --name "Discord" windowfocus --sync key --clearmodifiers "Control+Shift+M"
+
+# Activate the previous window
+xdotool windowfocus "$PREVIOUS_WINDOW"
