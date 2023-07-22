@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+	echo "No keybind provided"
+	exit 1
+fi
+
+# Store the ID of focused window
+PREVIOUS_WINDOW=$(xdotool getactivewindow)
+
+# Check if KDE Plasma is the current desktop environment
+if [[ "$(echo "$XDG_CURRENT_DESKTOP" | tr '[:upper:]' '[:lower:]')" == *"kde"* ]]; then
+    # Send toggle deafen keybind to Discord
+	xdotool search --onlyvisible --name "\- Discord" windowactivate --sync key --clearmodifiers "$1"
+
+	# Activate the previous window
+	xdotool windowactivate "$PREVIOUS_WINDOW"
+elif [[ "$(echo "$XDG_CURRENT_DESKTOP" | tr '[:upper:]' '[:lower:]')" == *"gnome"* ]]; then
+    # Send toggle deafen keybind to Discord
+	xdotool search --onlyvisible --name "\- Discord" windowfocus --sync key --clearmodifiers "$1"
+
+	# Activate the previous window
+	xdotool windowfocus "$PREVIOUS_WINDOW"
+else
+    echo "Unknown or unsupported desktop environment."
+    exit 1
+fi
